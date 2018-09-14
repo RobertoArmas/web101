@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Message;
+use App\Models\Message;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -15,6 +15,8 @@ class MessageController extends Controller
     public function index()
     {
         //
+        $messages=Message::all();
+        return view('messages.index')->with(['messages'=>$messages]);
     }
 
     /**
@@ -25,6 +27,7 @@ class MessageController extends Controller
     public function create()
     {
         //
+        return view('messages.create');
     }
 
     /**
@@ -36,6 +39,15 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         //
+        $mensaje=new Message();
+        $mensaje->text0$request->get('texto');
+        $mensaje-user_id=1;
+        $success=$mensaje->save();
+        if($success){
+            return redirect(route('messages.index'));
+        }else{
+            return redirect()->back()->with('error',"no se pudo ingresar");
+        }
     }
 
     /**
