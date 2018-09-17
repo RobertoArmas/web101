@@ -3,10 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\User;
 use Illuminate\Http\Request;
+use Auth;
 
 class MessageController extends Controller
 {
+
+    /*public function __construct(){
+        $this->middleware('auth');
+    }*/
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +34,8 @@ class MessageController extends Controller
      */
     public function create()
     {
-        return view('messages.create');
+        $user = User::where('id', '!=', Auth::user()->id)->get();
+        return view('messages.create')->with('users', $user);
     }
 
     /**
@@ -36,10 +46,10 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $mensaje = new Message();
-        $mensaje->text = $request->get('texto');
-        $mensaje->user_id = 1;
-        $success = $mensaje->save();
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
+        $mensaje = Message::create($data);
+        $success = $mensaje != null;
         if($success){
             return redirect(route('messages.index'));
         }else{
@@ -66,7 +76,8 @@ class MessageController extends Controller
      */
     public function edit(Message $message)
     {
-        //
+        $user = User::where('id', '!=', Auth::user()->id)->get();
+        return view('messages.edit')->with(['message'=>$message, 'users'=>$user]);
     }
 
     /**
@@ -78,7 +89,14 @@ class MessageController extends Controller
      */
     public function update(Request $request, Message $message)
     {
-        //
+        $message->text=$request->get('texto');
+        $message->to_user_id= $request->get('to_user_id');
+        $success = $message->save();
+        if($success){
+            return redirect(route('messages.index'));
+        }else{
+            return redirect()->back()->with('error',"no se pudo ingresar");
+        }
     }
 
     /**
@@ -89,6 +107,11 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $success = $message->delete();
+        if($success){
+            return redirect()->back()->with('success',"Se ha eliminado el texto");
+        }else{
+            return redirect()->back()->with('error',"No se ha eliminado el texto");
+        }
     }
 }
