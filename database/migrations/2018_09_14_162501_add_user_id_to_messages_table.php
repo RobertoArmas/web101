@@ -14,7 +14,7 @@ class AddUserIdToMessagesTable extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            //
+            $table->unsignedInteger('user_id');
         });
     }
 
@@ -26,7 +26,7 @@ class AddUserIdToMessagesTable extends Migration
     public function down()
     {
         Schema::table('messages', function (Blueprint $table) {
-            //
+            $table->dropColumn('user_id');
         });
     }
 }

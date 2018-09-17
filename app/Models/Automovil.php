@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
-//hola
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Automovil extends Model
 {
     private $marca;
-    //wea
+    
     public function __construct($marca){
         $this->marca = $marca;
     }

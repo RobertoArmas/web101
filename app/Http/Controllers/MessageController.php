@@ -14,9 +14,8 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
-        $messages=Message::all();
-        return view('messages.index')->with(['messages'=>$messages]);
+        $messages = Message::all();
+        return view('messages.index')->with(['messages' => $messages]);
     }
 
     /**
@@ -26,7 +25,6 @@ class MessageController extends Controller
      */
     public function create()
     {
-        //
         return view('messages.create');
     }
 
@@ -38,11 +36,11 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $mensaje=new Message();
-        $mensaje->text0$request->get('texto');
-        $mensaje-user_id=1;
-        $success=$mensaje->save();
+        //Metodo para crear
+        $mensaje = new Message();
+        $mensaje->text = $request->get('texto');
+        $mensaje->user_id = 1;
+        $success = $mensaje->save();
         if($success){
             return redirect(route('messages.index'));
         }else{
