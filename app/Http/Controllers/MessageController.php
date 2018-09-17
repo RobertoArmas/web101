@@ -67,7 +67,7 @@ class MessageController extends Controller
      */
     public function edit(Message $message)
     {
-        //
+        return view('messages.edit')->with('message',$message);
     }
 
     /**
@@ -79,7 +79,13 @@ class MessageController extends Controller
      */
     public function update(Request $request, Message $message)
     {
-        //
+        $message->text = $request->get('texto');
+        $success = $message->save();
+        if($success){
+            return redirect(route('messages.index'));
+        }else{
+            return redirect()->back()->with('error',"no se pudo ingresar");
+        }
     }
 
     /**
@@ -90,6 +96,11 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $success = $message->delete();
+        if($success){
+            return redirect()->back()->with('succes',"Se ha eliminado");
+        }else{
+            return redirect()->back()->with('succes',"No vale we");
+        }
     }
 }
