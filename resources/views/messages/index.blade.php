@@ -24,9 +24,13 @@
                             <a href="{{ route('messages.edit',$message->id) }}">
                               <button type="button" class="btn btn-primary">Editar</button>
                             </a>
-                            <a href="{{ route('messages.destroy',$message->id) }}">
-                              <button type="button" class="btn btn-danger">Borrar</button>
-                            </a>
+                            
+                            <!-- Crear un formulario POST -->
+                            <form method="POST" action="{{ route('messages.destroy',$message->id) }}">
+                                @csrf
+                                <input type="hidden" name="_method" value="DELETE"/> 
+                              <button type="submit" class="btn btn-danger">Borrar</button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach
