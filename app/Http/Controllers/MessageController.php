@@ -77,7 +77,8 @@ class MessageController extends Controller
      */
     public function edit(Message $message)
     {
-        return view('messages.edit')->with('message',$message);
+        $users=User::where('id','!=',Auth::user()->id)->get();
+        return view('messages.edit')->with('message',$message)->with('users',$users);
     }
 
     /**
@@ -87,15 +88,23 @@ class MessageController extends Controller
      * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Message $message)
+    public function update(Request $request, Message $message, User $user)
     {
-        $message->text = $request->get('texto');
-        $success = $message->save();
-        if($success){
-            return redirect(route('messages.index'));
+        $usuarioActual=Auth::user()->id;
+        if($usuarioActual==$message->user_id){
+
+            $message->text = $request->get('text');
+            $message->to_user_id=$request->get('to_user_id');
+            $success = $message->save();
+            if($success){
+                return redirect(route('messages.index'))->with('succes',"Ha sido actualizado con exito");
+            }else{
+                return redirect()->back()->with('error',"no se pudo ingresar");
+            }
         }else{
-            return redirect()->back()->with('error',"no se pudo ingresar");
+            return redirect(route('messages.index'))->with('error',"no puedes editar mensajes de otros usuarios");
         }
+        
     }
 
     /**
