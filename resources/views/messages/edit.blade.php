@@ -17,6 +17,18 @@
                         <input type="text" name="texto" value="{{ $message->text}}">
                     </div>
                 </div>
+                <dir class="form-group">
+                    <label class="col-md-2">
+                        Destinatario
+                    </label>
+                    <div class="col-md-10">
+                        <select name="to_user_id" class="form-control">
+                            @foreach ($users as $user)
+                            <option value="{{ $user->id }}" {{ ($user->id == $message->to_user_id) ? 'selected' : ''}}> {{ $user->email }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </dir>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Enviar</button>
                 </div>

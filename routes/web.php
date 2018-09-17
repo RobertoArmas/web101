@@ -14,6 +14,12 @@
 
 Auth::routes();
 
+//para validar la auntetificacion
+Route::group(['middleware' => 'auth'], function(){
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::resource('/messages',MessageController::class);
+
+});
+

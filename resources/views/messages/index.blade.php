@@ -21,14 +21,19 @@
             <table class="table">
                 <thead>
                     <tr>
+                       <th>Usuario</th>
+                       <th>Enviado</th>
                         <th>Texto</th>
                         <th>Fecha</th>
                         <th>Acciones</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($messages as $message)
                     <tr>
+                        <td>{{$message->user->name}} </td>
+                        <td>{{$message->to->name}} </td>
                         <td>{{ $message->text }}</td>
                         <td>{{ $message->created_at }}</td>
                         <td>
@@ -42,10 +47,10 @@
                               - agregar un boton de tipo submit 
                             -->
                             <form method="POST" action="{{ route('messages.destroy',$message->id) }}">
-                              @csrf()
+                              @csrf
                               <input type="hidden" name="_method" value="DELETE">
                               <button type="submit" class="btn btn-danger">Borrar</button>
-                            </a>
+                            </form>
                         </td>
                     </tr>
                     @endforeach

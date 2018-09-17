@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\User;
 use Illuminate\Http\Request;
+use Auth;
 
 class MessageController extends Controller
 {
+    /**
+    forma para comprobar la autentificación
+    -------------------------------------------------
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    */
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +36,8 @@ class MessageController extends Controller
      */
     public function create()
     {
-        return view('messages.create');
+        $users = User::where('id', '!=', Auth::user()->id)->get();
+        return view('messages.create')->with('users', $users );
     }
 
     /**
@@ -36,10 +48,11 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $mensaje = new Message();
-        $mensaje->text = $request->get('texto');
-        $mensaje->user_id = 1;
-        $success = $mensaje->save();
+        $data = $request->all();
+        $data['user_id'] =Auth::user()->id;
+
+        $mensaje = Message::create($data);
+       $success = $mensaje !=null;
         if($success){
             return redirect(route('messages.index'));
         }else{
@@ -66,7 +79,8 @@ class MessageController extends Controller
      */
     public function edit(Message $message)
     {
-       return view('messages.edit')->with('message',$message);
+        $users = User::where('id', '!=', Auth::user()->id)->get();
+        return view('messages.edit')->with(['message'=>$message, 'users'=>$users]);
     }
 
     /**
@@ -78,8 +92,9 @@ class MessageController extends Controller
      */
     public function update(Request $request, Message $message)
     {
-        $message->text = $request->get('texto');
-        $success = $message->save();
+        $data = $request->all();
+        $success = $message->update($data);
+       
         if($success){
             return redirect(route('messages.index'))->with('success', "se ha actualizado correctamente");
         }else{
