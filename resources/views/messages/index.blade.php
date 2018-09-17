@@ -5,7 +5,18 @@
      <div class="card">
          <div class="col-md-12">
               <h1>Mensajes</h1>
-             <a href="{{ route('messages.create') }}">Nuevo</a>
+              <a href="{{ route('messages.create') }}">Nuevo</a>
+              <hr>
+              @if(session('success'))
+              <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+              </div>
+              @endif
+              @if(session('error'))
+              <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+              </div>
+              @endif
         <div class="row">
             <table class="table">
                 <thead>
@@ -24,9 +35,18 @@
                             <a href="{{ route('messages.edit',$message->id) }}">
                               <button type="button" class="btn btn-primary">Editar</button>
                             </a>
-                            <a href="{{ route('messages.destroy',$message->id) }}">
-                              <button type="button" class="btn btn-danger">Borrar</button>
-                            </a>
+                            <!--
+                              Crear un formulario POST
+                              -resuelva la ruta messages.destroy
+                              -sobrescriba el metodo a DELETE
+                              -cree el input con el token de seguridad
+                              -agregar un boton de tipo submit
+                            -->
+                            <form method="POST" action="{{ route('messages.destroy',$message->id) }}">
+                              @csrf
+                              <input type="hidden" name="_method" value="DELETE">
+                              <button type="submit" class="btn btn-danger">Borrar</button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach
