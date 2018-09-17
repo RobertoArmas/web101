@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Auth;
 
 class MessageController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +30,8 @@ class MessageController extends Controller
      */
     public function create()
     {
-        return view('messages.create');
+        $users = User::where('id','!=',Auth::user()->id)->get();
+        return view('messages.create')->with('users',$users);
     }
 
     /**
@@ -36,10 +42,11 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $mensaje = new Message();
-        $mensaje->text = $request->get('texto');
-        $mensaje->user_id = 1;
-        $success = $mensaje->save();
+        $data = $request->all();
+        $data['user_id']= Auth::user()->id;
+        $mensaje = Message::create($data);
+
+        $success = $mensaje!=null;
         if($success){
             return redirect(route('messages.index'));
         }else{
