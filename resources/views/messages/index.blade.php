@@ -22,6 +22,7 @@
                 <thead>
                     <tr>
                         <th>Usuario</th>
+                        <th>Destinatario</th>
                         <th>Texto</th>
                         <th>Fecha</th>
                         <th>Acciones</th>
@@ -31,6 +32,7 @@
                     @foreach($messages as $message)
                     <tr>
                         <td>{{$message->user->email}}</th>
+                        <td>{{$message->to->email}}</th>
                         <td>{{ $message->text }}</td>
                         <td>{{ $message->created_at }}</td>
                         <td>

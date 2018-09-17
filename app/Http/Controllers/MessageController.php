@@ -43,11 +43,14 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $mensaje = new Message();
-        $mensaje->text = $request->get('texto');
-        $mensaje->user_id = Auth::user()->id;
-        $success = $mensaje->save();
+        $data = $request->all();
+        $data['user_id']=Auth::user()->id;
+        //$mensaje = new Message();
+        //$mensaje->text = $request->get('texto');
+        //$mensaje->user_id = Auth::user()->id;
+        $mensaje=Message::create($data);
+        //$success = $mensaje->save();
+        $success=$mensaje!=null;
         if($success){
             return redirect(route('messages.index'));
         }else{
