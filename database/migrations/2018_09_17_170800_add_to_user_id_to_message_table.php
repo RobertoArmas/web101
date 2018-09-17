@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserIdToMessagesTable extends Migration
+class AddToUserIdToMessageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddUserIdToMessagesTable extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')
+            $table->unsignedInteger('to_user_id');
+            $table->foreign('to_user_id')
                   ->references('id')->on('users')
                   ->onDelete('cascade');
         });
@@ -29,8 +29,7 @@ class AddUserIdToMessagesTable extends Migration
     public function down()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->dropColumn('user_id');
-            
+            $table->dropColumn('to_user_id');
         });
     }
 }

@@ -14,6 +14,11 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function(){
+    
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::resource('/messages',MessageController::class); 
+    
+});
 
-Route::resource('/messages',MessageController::class);
+
