@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Auth;
+use App\User;
 
 class MessageController extends Controller
 {
+    //Autenticación
+    //public function _construct(){
+      //  $this->middleware('auth');
+    //}
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +31,8 @@ class MessageController extends Controller
      */
     public function create()
     {
-        return view('messages.create');
+        $users=User::where('id','!=',Auth::user()->id)->get();
+        return view('messages.create')->with('users',$users);
     }
 
     /**
@@ -36,10 +43,10 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //Metodo para crear
+        
         $mensaje = new Message();
         $mensaje->text = $request->get('texto');
-        $mensaje->user_id = 1;
+        $mensaje->user_id = Auth::user()->id;
         $success = $mensaje->save();
         if($success){
             return redirect(route('messages.index'));

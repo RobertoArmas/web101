@@ -17,6 +17,16 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-md-2">Destinatario</label>
+                    <div class="col-md-10">
+                        <select type="text" name="to_user_id" class="form-control">
+                            @foreach($users as $user)
+                            <option value="{{$user->id}}">{{$user->email}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <button type="submit" class="btn btn-primary">Enviar</button>
                 </div>
             </form>

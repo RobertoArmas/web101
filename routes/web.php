@@ -13,11 +13,11 @@
 
 
 Auth::routes();
+Route::group(['middleware'=>'auth'],function(){
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('/messages',MessageController::class);
+});
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::resource('/messages',MessageController::class);
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
