@@ -21,7 +21,10 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>ID Usuario</th>
+                        <th>Correo</th>
                         <th>Texto</th>
+                        <th>Destinatario</th>
                         <th>Fecha</th>
                         <th>Acciones</th>
                     </tr>
@@ -29,8 +32,11 @@
                 <tbody>
                     @foreach($messages as $message)
                     <tr>
+                        <td>{{ $message->user_id }}</td>
+                        <td>{{ $message->user->email }}</td>
                         <td>{{ $message->text }}</td>
-                        <td>{{ $message->created_at }}</td>
+                        <td>{{ $message->to->email }}</td>
+                        <td>{{ $message->updated_at }}</td>
                         <td>
                             <a href="{{ route('messages.edit',$message->id) }}">
                               <button type="button" class="btn btn-primary">Editar</button>

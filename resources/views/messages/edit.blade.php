@@ -14,7 +14,21 @@
                 <div class="form-group">
                     <label class="col-md-2">Texto</label>
                     <div class="col-md-10">
-                        <input type="text" name="texto" value="{{ $message->text }}">
+                        <input type="text" name="text" value="{{ $message->text }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">Destinatario</label>
+                    <div class="col-md-10">
+                        <select name="to_user_id" class="form-control">
+                            @foreach ($users as $user)
+                            @if($message->to_user_id == $user->id)
+                            <option selected value="{{ $user->id }}">{{ $user->email }}</option>
+                            @else
+                            <option value="{{ $user->id }}">{{ $user->email }}</option>
+                            @endif
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
