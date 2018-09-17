@@ -6,9 +6,17 @@
          <div class="col-md-12">
               <h1>Mensajes</h1>
              <a href="{{ route('messages.create') }}">Nuevo</a>
+             <hr>
+             @if(session('succes'))
              <div class="alert alert-success" role="alert">
-                This is a success alert—check it out!
+                {{session('succes')}}
             </div>
+            @endif
+            @if(session('error'))
+             <div class="alert alert-danger" role="alert">
+                {{session('error')}}
+            </div>
+            @endif
         <div class="row">
             <table class="table">
                 <thead>
