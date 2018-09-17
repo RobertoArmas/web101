@@ -73,7 +73,8 @@ class MessageController extends Controller
      */
     public function edit(Message $message)
     {
-        return view('messages.edit')->with('message',$message);
+        $users = User::where('id','!=',Auth::user()->id)->get();
+        return view('messages.edit')->with('message',$message)->with('users',$users);
     }
 
     /**
@@ -85,7 +86,8 @@ class MessageController extends Controller
      */
     public function update(Request $request, Message $message)
     {
-        $message->text = $request->get('texto');
+        $message->text = $request->get('text');
+        $message->to_user_id = $request->get('to_user_id');
         $success = $message->save();
         if($success){
             return redirect(route('messages.index'));
