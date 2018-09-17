@@ -6,11 +6,26 @@
          <div class="col-md-12">
               <h1>Mensajes</h1>
              <a href="{{ route('messages.create') }}">Nuevo</a>
+             <hr>
+
+              @if(session('success'))
+             <div class="alert alert-success" role="alert">
+             {{session('success')}}
+             </div>
+             @endif
+
+             @if(session('error'))
+             <div class="alert alert-danger" role="alert">
+             {{session('error')}}
+             </div>
+             @endif
+
         <div class="row">
             <table class="table">
                 <thead>
                     <tr>
                         <th>Texto</th>
+                         <th>destinatario</th>
                         <th>Fecha</th>
                         <th>Acciones</th>
                     </tr>
@@ -18,15 +33,21 @@
                 <tbody>
                     @foreach($messages as $message)
                     <tr>
+                        <td>{{$message->user->email}}</td>
+                        <td>{{$message->to->email}}</td>
                         <td>{{ $message->text }}</td>
                         <td>{{ $message->created_at }}</td>
                         <td>
                             <a href="{{ route('messages.edit',$message->id) }}">
                               <button type="button" class="btn btn-primary">Editar</button>
                             </a>
-                            <a href="{{ route('messages.destroy',$message->id) }}">
-                              <button type="button" class="btn btn-danger">Borrar</button>
-                            </a>
+               
+
+                            <form method="POST" action="{{ route('messages.destroy',$message->id) }}">
+                              @csrf
+                              <input type="hidden" name="_method" value="DELETE">
+                              <button type="submit" class="btn btn-danger">Borrar</button>
+                            </form>
                         </td>
                     </tr>
                     @endforeach
