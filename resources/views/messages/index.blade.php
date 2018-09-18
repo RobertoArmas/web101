@@ -34,8 +34,8 @@
                     <tr>
                         <td>{{$message->user->name}} </td>
                         <td>{{$message->to->name}} </td>
-                        <td>{{ $message->text }}</td>
-                        <td>{{ $message->created_at }}</td>
+                        <!-- <td>{{ $message->text }}</td>
+                        <td>{{ $message->created_at }}</td>  -->
                         <td>
                             <a href="{{ route('messages.edit',$message->id) }}">
                               <button type="button" class="btn btn-primary">Editar</button>
