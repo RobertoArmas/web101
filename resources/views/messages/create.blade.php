@@ -13,7 +13,7 @@
                 <div class="form-group">
                     <label class="col-md-2">Texto</label>
                     <div class="col-md-10">
-                        <input type="text" name="text">
+                        <input placeholder="Escriba un Mensaje..." type="text" name="text">
                     </div>
                 </div>
                 <div class="form-group">

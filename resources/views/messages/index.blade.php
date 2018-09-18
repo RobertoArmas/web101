@@ -21,8 +21,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID Usuario</th>
-                        <th>Correo</th>
+                        <th>Emisor</th>
                         <th>Texto</th>
                         <th>Destinatario</th>
                         <th>Fecha</th>
@@ -32,7 +31,6 @@
                 <tbody>
                     @foreach($messages as $message)
                     <tr>
-                        <td>{{ $message->user_id }}</td>
                         <td>{{ $message->user->email }}</td>
                         <td>{{ $message->text }}</td>
                         <td>{{ $message->to->email }}</td>
